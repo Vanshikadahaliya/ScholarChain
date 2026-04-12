@@ -40,7 +40,7 @@ const StatsCards = ({ campaigns = [] }) => {
       title: "Total Raised",
       value: `${stats.totalRaised.toFixed(2)} ETH`,
       icon: "💰",
-      color: "from-green-500 to-emerald-500",
+      color: "from-blue-500 to-blue-600",
       change: "+12.5%",
       changeType: "positive"
     },
@@ -86,7 +86,7 @@ const StatsCards = ({ campaigns = [] }) => {
               </div>
               <div className="text-right">
                 <div className={`text-sm font-medium ${
-                  stat.changeType === 'positive' ? 'text-green-400' : 'text-red-400'
+                  stat.changeType === 'positive' ? 'text-blue-400' : 'text-red-400'
                 }`}>
                   {stat.change}
                 </div>
