@@ -6,22 +6,44 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { connectWallet, getChainId, switchToSepolia } from "../lib/web3";
 
-const pillars = [
+const missions = [
 	{
-		title: "Immutable ledger",
-		body: "Donations and scholarship allocations emit on-chain events you can verify on a block explorer.",
-		tag: "01",
+		title: "Education for All",
+		description: "Support scholarships for underprivileged students pursuing higher education.",
+		raised: "₹2,45,000",
+		goal: "₹5,00,000",
+		percentage: 49,
+		donations: 156,
+		image: "/mission-education.jpg",
+		taxBenefit: true
 	},
 	{
-		title: "Role separation",
-		body: "Donors, NGO staff, admins, and students map to JWT roles—API access matches real workflows.",
-		tag: "02",
+		title: "Skill Development",
+		description: "Empower youth with vocational training and skill development programs.",
+		raised: "₹1,85,000",
+		goal: "₹3,00,000",
+		percentage: 62,
+		donations: 89,
+		image: "/mission-skills.jpg",
+		taxBenefit: true
 	},
 	{
-		title: "Off-chain privacy",
-		body: "Student PII and documents live in MongoDB; chain only stores ids, amounts, and hashes.",
-		tag: "03",
+		title: "Healthcare Access",
+		description: "Provide medical assistance and healthcare support to needy families.",
+		raised: "₹3,20,000",
+		goal: "₹7,00,000",
+		percentage: 46,
+		donations: 234,
+		image: "/mission-health.jpg",
+		taxBenefit: true
 	},
+];
+
+const stats = [
+	{ label: "Total Donations", value: "₹12,50,000+" },
+	{ label: "Students Helped", value: "500+" },
+	{ label: "NGO Partners", value: "25+" },
+	{ label: "Transparent Transactions", value: "100%" }
 ];
 
 export default function Home() {
@@ -55,83 +77,164 @@ export default function Home() {
 	};
 
 	return (
-		<div className="relative min-h-screen">
+		<div className="min-h-screen bg-white">
 			<Navbar account={account} onConnectWallet={onConnect} network={network} />
 
 			<main className="pt-16">
-				<section className="relative px-4 pb-16 pt-12 md:pb-24 md:pt-16">
-					<div className="mx-auto max-w-6xl">
-						<div className="sc-panel relative overflow-hidden rounded-2xl border border-cyan-500/20 p-8 shadow-glow md:p-12">
-							<div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-cyan-500/10 blur-3xl" />
-							<div className="pointer-events-none absolute -bottom-20 -left-20 h-56 w-56 rounded-full bg-teal-500/10 blur-3xl" />
-
-							<p className="sc-kicker mb-4">ScholarChain · NGO scholarship transparency</p>
-							<h1 className="mb-5 max-w-3xl text-4xl font-semibold leading-tight tracking-tight text-slate-50 md:text-5xl md:leading-[1.1]">
-								<span className="gradient-text">Verify every rupee.</span>
-								<span className="text-slate-300"> Fund flows and allocations on-chain.</span>
-							</h1>
-							<p className="mb-10 max-w-2xl text-base leading-relaxed text-slate-400 md:text-lg">
-								A technical control plane for donors and NGOs: MetaMask-signed transfers, MongoDB-backed
-								identity, and explorer-ready transaction hashes—without mixing student data into the ledger.
-							</p>
-
-							<div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-								<Link href="/donate" className="inline-flex">
-									<button type="button" className="btn-primary min-w-[160px]">
-										Open donate flow
-									</button>
-								</Link>
-								<Link href="/dashboard" className="inline-flex">
-									<button type="button" className="btn-secondary min-w-[200px]">
-										Operations dashboard
-									</button>
-								</Link>
-								<Link href="/register" className="inline-flex sm:ml-1">
-									<button
-										type="button"
-										className="rounded-lg border border-transparent px-4 py-3 font-mono text-xs uppercase tracking-wider text-cyan-400/90 underline-offset-4 hover:text-cyan-300 hover:underline"
-									>
-										Create account
-									</button>
-								</Link>
-							</div>
-
-							<dl className="mt-10 grid gap-4 border-t border-cyan-500/15 pt-8 font-mono text-[11px] text-slate-500 sm:grid-cols-3">
-								<div>
-									<dt className="text-slate-600">Contract</dt>
-									<dd className="mt-1 truncate text-cyan-200/90" title={process.env.NEXT_PUBLIC_SCHOLARCHAIN_ADDRESS}>
-										{process.env.NEXT_PUBLIC_SCHOLARCHAIN_ADDRESS || "Not configured"}
-									</dd>
-								</div>
-								<div>
-									<dt className="text-slate-600">API</dt>
-									<dd className="mt-1 text-cyan-200/90">
-										{process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000"}
-									</dd>
-								</div>
-								<div>
-									<dt className="text-slate-600">Wallet</dt>
-									<dd className="mt-1 text-emerald-300/90">
-										{account ? `${account.slice(0, 6)}…${account.slice(-4)}` : "Not connected"}
-									</dd>
-								</div>
-							</dl>
+				{/* Hero Section */}
+					<section className="bg-gradient-to-br from-blue-50 to-white dark:from-gray-800 dark:to-gray-900 py-20 px-4">
+						<div className="max-w-6xl mx-auto text-center">
+							<h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+								India's Most Trusted
+								<span className="block text-blue-600 dark:text-blue-400">Scholarship Platform</span>
+						</h1>
+						<p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
+							Transparent scholarship distribution powered by blockchain.
+							Every rupee tracked, every student verified, every donation impactful.
+						</p>
+						<div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+							<Link href="/donate">
+								<button className="btn-primary px-8 py-4 text-lg">
+									Start Donating
+								</button>
+							</Link>
+							<Link href="/students">
+								<button className="btn-secondary px-8 py-4 text-lg">
+									View Students
+								</button>
+							</Link>
 						</div>
 
-						<div className="mt-10 grid gap-4 md:grid-cols-3">
-							{pillars.map((p) => (
-								<div
-									key={p.tag}
-									className="sc-panel rounded-xl border border-cyan-500/10 p-5 transition-colors hover:border-cyan-500/25"
-								>
-									<div className="mb-3 flex items-center justify-between">
-										<span className="font-mono text-[10px] font-semibold text-cyan-500/80">{p.tag}</span>
-										<span className="h-px flex-1 bg-gradient-to-r from-cyan-500/30 to-transparent pl-3" />
-									</div>
-									<h2 className="mb-2 text-sm font-semibold text-slate-100">{p.title}</h2>
-									<p className="text-sm leading-relaxed text-slate-500">{p.body}</p>
+						{/* Stats */}
+						<div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+							{stats.map((stat, index) => (
+								<div key={index} className="text-center">
+									<div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">{stat.value}</div>
+									<div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
 								</div>
 							))}
+						</div>
+					</div>
+				</section>
+
+				{/* Missions Section */}
+				<section className="py-16 px-4 bg-gray-50 dark:bg-gray-800">
+					<div className="max-w-6xl mx-auto">
+						<div className="text-center mb-12">
+							<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Active Scholarship Programs</h2>
+							<p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+								Support verified scholarship programs that are making a real difference in students' lives.
+							</p>
+						</div>
+
+						<div className="grid md:grid-cols-3 gap-8">
+							{missions.map((mission, index) => (
+								<div key={index} className="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+									<div className="h-48 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 flex items-center justify-center">
+										<div className="text-6xl text-blue-600 dark:text-blue-400">🎓</div>
+									</div>
+									<div className="p-6">
+										<div className="flex items-center justify-between mb-2">
+											<h3 className="text-xl font-semibold text-gray-900 dark:text-white">{mission.title}</h3>
+											{mission.taxBenefit && (
+												<span className="bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 text-xs px-2 py-1 rounded-full">
+													Tax Benefit
+												</span>
+											)}
+										</div>
+										<p className="text-gray-600 dark:text-gray-300 mb-4">{mission.description}</p>
+
+										{/* Progress Bar */}
+										<div className="mb-4">
+											<div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
+												<span>{mission.raised} raised</span>
+												<span>{mission.goal}</span>
+											</div>
+											<div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+												<div
+													className="bg-blue-600 dark:bg-blue-500 h-2 rounded-full transition-all duration-500"
+													style={{ width: `${mission.percentage}%` }}
+												></div>
+											</div>
+											<div className="text-right text-sm text-gray-500 dark:text-gray-400 mt-1">
+												{mission.percentage}% funded
+											</div>
+										</div>
+
+										<div className="flex justify-between items-center">
+											<span className="text-sm text-gray-500 dark:text-gray-400">{mission.donations} donations</span>
+											<button className="bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
+												Donate Now
+											</button>
+										</div>
+									</div>
+								</div>
+							))}
+						</div>
+
+						<div className="text-center mt-12">
+							<Link href="/donate">
+								<button className="btn-secondary px-8 py-3">
+									View All Programs
+								</button>
+							</Link>
+						</div>
+					</div>
+				</section>
+
+				{/* Trust Section */}
+				<section className="py-16 px-4 bg-gray-50 dark:bg-gray-800">
+					<div className="max-w-6xl mx-auto">
+						<div className="text-center mb-12">
+							<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Why Choose ScholarChain?</h2>
+						</div>
+
+						<div className="grid md:grid-cols-3 gap-8">
+							<div className="text-center">
+								<div className="w-16 h-16 bg-blue-100 dark:bg-blue-800 rounded-full flex items-center justify-center mx-auto mb-4">
+									<span className="text-2xl text-blue-600 dark:text-blue-400">🔒</span>
+								</div>
+								<h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Blockchain Transparency</h3>
+								<p className="text-gray-600 dark:text-gray-300">Every transaction is recorded on the blockchain, ensuring complete transparency and accountability.</p>
+							</div>
+							<div className="text-center">
+								<div className="w-16 h-16 bg-blue-100 dark:bg-blue-800 rounded-full flex items-center justify-center mx-auto mb-4">
+									<span className="text-2xl text-blue-600 dark:text-blue-400">✅</span>
+								</div>
+								<h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Verified Students</h3>
+								<p className="text-gray-600 dark:text-gray-300">All scholarship recipients are thoroughly verified to ensure funds reach those who need them most.</p>
+							</div>
+							<div className="text-center">
+								<div className="w-16 h-16 bg-blue-100 dark:bg-blue-800 rounded-full flex items-center justify-center mx-auto mb-4">
+									<span className="text-2xl text-blue-600 dark:text-blue-400">💰</span>
+								</div>
+								<h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Tax Benefits</h3>
+								<p className="text-gray-600 dark:text-gray-300">Donations qualify for tax deductions under Section 80G, maximizing your social impact.</p>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				{/* CTA Section */}
+				<section className="bg-blue-600 dark:bg-blue-700 py-16 px-4">
+					<div className="max-w-4xl mx-auto text-center">
+						<h2 className="text-3xl font-bold text-white mb-4">
+							Ready to Make a Difference?
+						</h2>
+						<p className="text-blue-100 dark:text-blue-200 mb-8 text-lg">
+							Join thousands of donors who are transforming lives through transparent scholarship funding.
+						</p>
+						<div className="flex flex-col sm:flex-row gap-4 justify-center">
+							<Link href="/donate">
+								<button className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-50 transition-colors">
+									Start Donating Today
+								</button>
+							</Link>
+							<Link href="/register">
+								<button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 dark:hover:bg-blue-600 transition-colors">
+									Create Account
+								</button>
+							</Link>
 						</div>
 					</div>
 				</section>

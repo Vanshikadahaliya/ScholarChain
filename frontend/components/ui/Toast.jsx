@@ -22,7 +22,7 @@ const Toast = ({
 	const getToastStyles = () => {
 		switch (type) {
 			case "success":
-				return "bg-green-500/20 border-green-400/30 text-green-300";
+				return "bg-blue-500/20 border-blue-400/30 text-blue-300";
 			case "error":
 				return "bg-red-500/20 border-red-400/30 text-red-300";
 			case "warning":

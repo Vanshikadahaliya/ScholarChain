@@ -1,15 +1,8 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { ethers } from "ethers";
-import Navbar from "../../components/layout/Navbar";
-import Footer from "../../components/layout/Footer";
-import Card from "../../components/ui/Card";
-import Button from "../../components/ui/Button";
-import { api, setToken, getToken } from "../../lib/api";
-import { connectWallet, getChainId, switchToSepolia } from "../../lib/web3";
+import { redirect } from "next/navigation";
 
 export default function DashboardPage() {
+	redirect("/");
+}
 	const [account, setAccount] = useState("");
 	const [network, setNetwork] = useState("");
 	const [data, setData] = useState(null);
