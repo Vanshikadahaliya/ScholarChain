@@ -1,19 +1,27 @@
-import { redirect } from "next/navigation";
+"use client";
+
+import { useEffect, useState } from "react";
+import { ethers } from "ethers";
+import Navbar from "../../components/layout/Navbar";
+import Footer from "../../components/layout/Footer";
+import Card from "../../components/ui/Card";
+import Button from "../../components/ui/Button";
+import { api, getToken, setToken } from "../../lib/api";
+import { connectWallet, getChainId, switchToSepolia } from "../../lib/web3";
 
 export default function DashboardPage() {
-	redirect("/");
-}
 	const [account, setAccount] = useState("");
 	const [network, setNetwork] = useState("");
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
+		if (!getToken()) {
+			window.location.href = "/login";
+			return;
+		}
+
 		(async () => {
-			if (!getToken()) {
-				window.location.href = "/login";
-				return;
-			}
 			try {
 				setLoading(true);
 				const res = await api.get("/dashboard");
@@ -61,15 +69,15 @@ export default function DashboardPage() {
 	const counts = data?.counts;
 
 	return (
-		<div className="relative min-h-screen text-slate-100">
+		<div className="relative min-h-screen bg-white text-slate-900 dark:bg-[#05080c] dark:text-slate-100">
 			<Navbar account={account} onConnectWallet={onConnect} network={network} />
 			<main className="space-y-8 px-4 pb-16 pt-24">
 				<div className="mx-auto max-w-7xl space-y-8">
 					<div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 						<div>
 							<p className="sc-kicker mb-1">Operations</p>
-							<h1 className="text-3xl font-semibold tracking-tight text-slate-50">Dashboard</h1>
-							<p className="mt-1 text-sm text-slate-500">On-chain totals and database counts.</p>
+							<h1 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">Dashboard</h1>
+							<p className="mt-1 text-sm text-slate-500 dark:text-slate-400">On-chain totals and database counts.</p>
 						</div>
 						<Button variant="outline" onClick={logout}>
 							Log out
@@ -85,40 +93,34 @@ export default function DashboardPage() {
 							<div className="grid grid-cols-1 gap-4 md:grid-cols-3">
 								<Card className="p-6" hover={false}>
 									<div className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Students</div>
-									<div className="mt-2 text-3xl font-semibold tabular-nums text-slate-50">{counts.studentsCount}</div>
+									<div className="mt-2 text-3xl font-semibold tabular-nums text-slate-900 dark:text-slate-50">{counts.studentsCount}</div>
 								</Card>
 								<Card className="p-6" hover={false}>
 									<div className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Donations (DB)</div>
-									<div className="mt-2 text-3xl font-semibold tabular-nums text-slate-50">{counts.donationsCount}</div>
+									<div className="mt-2 text-3xl font-semibold tabular-nums text-slate-900 dark:text-slate-50">{counts.donationsCount}</div>
 								</Card>
 								<Card className="p-6" hover={false}>
 									<div className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Allocations (DB)</div>
-									<div className="mt-2 text-3xl font-semibold tabular-nums text-slate-50">{counts.allocationsCount}</div>
+									<div className="mt-2 text-3xl font-semibold tabular-nums text-slate-900 dark:text-slate-50">{counts.allocationsCount}</div>
 								</Card>
 							</div>
 
 							<div className="grid grid-cols-1 gap-4 md:grid-cols-4">
 								<Card className="p-6" hover={false}>
 									<div className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Σ Donations (chain)</div>
-									<div className="mt-2 text-xl font-semibold tabular-nums text-cyan-200">
-										{ethers.formatEther(onchain.totalDonationsWei)} ETH
-									</div>
+									<div className="mt-2 text-xl font-semibold tabular-nums text-cyan-700 dark:text-cyan-200">{ethers.formatEther(onchain.totalDonationsWei)} ETH</div>
 								</Card>
 								<Card className="p-6" hover={false}>
 									<div className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Σ Allocated (chain)</div>
-									<div className="mt-2 text-xl font-semibold tabular-nums text-cyan-200">
-										{ethers.formatEther(onchain.totalAllocatedWei)} ETH
-									</div>
+									<div className="mt-2 text-xl font-semibold tabular-nums text-cyan-700 dark:text-cyan-200">{ethers.formatEther(onchain.totalAllocatedWei)} ETH</div>
 								</Card>
 								<Card className="p-6" hover={false}>
 									<div className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Contract balance</div>
-									<div className="mt-2 text-xl font-semibold tabular-nums text-cyan-200">
-										{ethers.formatEther(onchain.contractBalanceWei)} ETH
-									</div>
+									<div className="mt-2 text-xl font-semibold tabular-nums text-cyan-700 dark:text-cyan-200">{ethers.formatEther(onchain.contractBalanceWei)} ETH</div>
 								</Card>
 								<Card className="p-6" hover={false}>
 									<div className="font-mono text-[10px] uppercase tracking-wider text-slate-500">NGO admin</div>
-									<div className="mt-2 break-all font-mono text-xs text-slate-300">{onchain.ngoAdmin}</div>
+									<div className="mt-2 break-all font-mono text-xs text-slate-500 dark:text-slate-300">{onchain.ngoAdmin}</div>
 								</Card>
 							</div>
 						</>

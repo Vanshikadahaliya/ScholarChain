@@ -85,17 +85,16 @@ export default function StudentsPage() {
 	};
 
 	return (
-		<div className="relative min-h-screen text-slate-100">
+		<div className="relative min-h-screen bg-white text-slate-900 dark:bg-[#05080c] dark:text-slate-100">
 			<Navbar account={account} onConnectWallet={onConnect} network={network} />
 			<main className="space-y-8 px-4 pb-16 pt-24">
 				<div className="mx-auto max-w-7xl space-y-8">
 					<div>
-						<p className="sc-kicker mb-1">Off-chain registry</p>
-						<h1 className="text-3xl font-semibold tracking-tight text-slate-50">Students</h1>
-						<p className="mt-1 text-sm text-slate-500">MongoDB records; verify before allocating on-chain.</p>
-					</div>
+					<p className="sc-kicker mb-1 text-cyan-700 dark:text-cyan-300">Off-chain registry</p>
+					<h1 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">Students</h1>
+					<p className="mt-1 text-sm text-slate-600 dark:text-slate-400">MongoDB records; verify before allocating on-chain.</p>
 
-					<Card className="p-8" hover={false}>
+				<Card className="p-8 bg-white text-slate-900 shadow-sm border border-slate-200 dark:bg-slate-950 dark:text-slate-100 dark:border-slate-800" hover={false}>
 						<h2 className="mb-4 font-mono text-xs uppercase tracking-wider text-slate-500">Add record</h2>
 						<form onSubmit={addStudent} className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
 							<Input label="Student ID" value={studentId} onChange={(e) => setStudentId(e.target.value)} />
@@ -104,12 +103,12 @@ export default function StudentsPage() {
 						</form>
 					</Card>
 
-					<Card className="p-8" hover={false}>
+				<Card className="p-8 bg-white text-slate-900 shadow-sm border border-slate-200 dark:bg-slate-950 dark:text-slate-100 dark:border-slate-800" hover={false}>
 						<h2 className="mb-4 font-mono text-xs uppercase tracking-wider text-slate-500">Directory</h2>
 						{loading ? (
-							<div className="font-mono text-sm text-slate-500">Loading…</div>
+							<div className="font-mono text-sm text-slate-500 dark:text-slate-400">Loading…</div>
 						) : students.length === 0 ? (
-							<div className="text-slate-500">No students</div>
+							<div className="text-slate-600 dark:text-slate-400">No students</div>
 						) : (
 							<div className="space-y-3">
 								{students.map((s) => (

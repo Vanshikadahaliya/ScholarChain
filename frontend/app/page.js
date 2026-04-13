@@ -77,96 +77,71 @@ export default function Home() {
 	};
 
 	return (
-		<div className="min-h-screen bg-white">
+		<div className="min-h-screen bg-white text-slate-900 dark:bg-[#05080c] dark:text-slate-100">
 			<Navbar account={account} onConnectWallet={onConnect} network={network} />
 
 			<main className="pt-16">
 				{/* Hero Section */}
 					<section className="bg-gradient-to-br from-blue-50 to-white dark:from-gray-800 dark:to-gray-900 py-20 px-4">
-						<div className="max-w-6xl mx-auto text-center">
+					<div className="max-w-6xl mx-auto">
+						<div className="text-center">
 							<h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
 								India's Most Trusted
 								<span className="block text-blue-600 dark:text-blue-400">Scholarship Platform</span>
-						</h1>
-						<p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-							Transparent scholarship distribution powered by blockchain.
-							Every rupee tracked, every student verified, every donation impactful.
-						</p>
-						<div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-							<Link href="/donate">
-								<button className="btn-primary px-8 py-4 text-lg">
-									Start Donating
-								</button>
-							</Link>
-							<Link href="/students">
-								<button className="btn-secondary px-8 py-4 text-lg">
-									View Students
-								</button>
-							</Link>
-						</div>
-
-						{/* Stats */}
-						<div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-							{stats.map((stat, index) => (
-								<div key={index} className="text-center">
-									<div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">{stat.value}</div>
-									<div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
-								</div>
-							))}
-						</div>
-					</div>
-				</section>
-
-				{/* Missions Section */}
-				<section className="py-16 px-4 bg-gray-50 dark:bg-gray-800">
-					<div className="max-w-6xl mx-auto">
-						<div className="text-center mb-12">
-							<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Active Scholarship Programs</h2>
-							<p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-								Support verified scholarship programs that are making a real difference in students' lives.
+							</h1>
+							<p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
+								Transparent scholarship distribution powered by blockchain.
+								Every rupee tracked, every student verified, every donation impactful.
 							</p>
+							<div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+								<Link href="/donate">
+									<button className="btn-primary px-8 py-4 text-lg">
+										Start Donating
+									</button>
+								</Link>
+								<Link href="/students">
+									<button className="btn-primary px-8 py-4 text-lg">
+										View Students
+									</button>
+								</Link>
+							</div>
+							<div className="text-6xl text-blue-600 dark:text-blue-400">🎓</div>
 						</div>
 
-						<div className="grid md:grid-cols-3 gap-8">
-							{missions.map((mission, index) => (
-								<div key={index} className="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-									<div className="h-48 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 flex items-center justify-center">
-										<div className="text-6xl text-blue-600 dark:text-blue-400">🎓</div>
+						<div className="grid gap-6 mt-16 md:grid-cols-3">
+							{missions.map((mission) => (
+								<div key={mission.title} className="rounded-3xl border border-gray-200 bg-white/80 p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900/80">
+									<div className="flex items-center justify-between mb-2">
+										<h3 className="text-xl font-semibold text-gray-900 dark:text-white">{mission.title}</h3>
+										{mission.taxBenefit && (
+											<span className="bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 text-xs px-2 py-1 rounded-full">
+												Tax Benefit
+											</span>
+										)}
 									</div>
-									<div className="p-6">
-										<div className="flex items-center justify-between mb-2">
-											<h3 className="text-xl font-semibold text-gray-900 dark:text-white">{mission.title}</h3>
-											{mission.taxBenefit && (
-												<span className="bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 text-xs px-2 py-1 rounded-full">
-													Tax Benefit
-												</span>
-											)}
-										</div>
-										<p className="text-gray-600 dark:text-gray-300 mb-4">{mission.description}</p>
+									<p className="text-gray-600 dark:text-gray-300 mb-4">{mission.description}</p>
 
-										{/* Progress Bar */}
-										<div className="mb-4">
-											<div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
-												<span>{mission.raised} raised</span>
-												<span>{mission.goal}</span>
-											</div>
-											<div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
-												<div
-													className="bg-blue-600 dark:bg-blue-500 h-2 rounded-full transition-all duration-500"
-													style={{ width: `${mission.percentage}%` }}
-												></div>
-											</div>
-											<div className="text-right text-sm text-gray-500 dark:text-gray-400 mt-1">
-												{mission.percentage}% funded
-											</div>
+									<div className="mb-4">
+										<div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
+											<span>{mission.raised} raised</span>
+											<span>{mission.goal}</span>
 										</div>
+										<div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+											<div
+												className="bg-blue-600 dark:bg-blue-500 h-2 rounded-full transition-all duration-500"
+												style={{ width: `${mission.percentage}%` }}
+											></div>
+										</div>
+										<div className="text-right text-sm text-gray-500 dark:text-gray-400 mt-1">
+											{mission.percentage}% funded
+										</div>
+									</div>
 
-										<div className="flex justify-between items-center">
-											<span className="text-sm text-gray-500 dark:text-gray-400">{mission.donations} donations</span>
-											<button className="bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
-												Donate Now
-											</button>
-										</div>
+									<div className="flex justify-between items-center">
+										<span className="text-sm text-gray-500 dark:text-gray-400">{mission.donations} donations</span>
+										<button className="bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
+											Donate Now
+										</button>
 									</div>
 								</div>
 							))}
@@ -181,7 +156,6 @@ export default function Home() {
 						</div>
 					</div>
 				</section>
-
 				{/* Trust Section */}
 				<section className="py-16 px-4 bg-gray-50 dark:bg-gray-800">
 					<div className="max-w-6xl mx-auto">
@@ -228,11 +202,6 @@ export default function Home() {
 							<Link href="/donate">
 								<button className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-50 transition-colors">
 									Start Donating Today
-								</button>
-							</Link>
-							<Link href="/register">
-								<button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 dark:hover:bg-blue-600 transition-colors">
-									Create Account
 								</button>
 							</Link>
 						</div>
