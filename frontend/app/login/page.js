@@ -29,13 +29,13 @@ export default function LoginPage() {
 	};
 
 	return (
-		<div className="relative min-h-screen text-slate-100">
+		<div className="relative min-h-screen bg-white text-slate-900 dark:bg-[#05080c] dark:text-slate-100">
 			<Navbar account="" onConnectWallet={() => {}} network="" />
 			<main className="px-4 pb-16 pt-24">
 				<div className="mx-auto max-w-lg">
 					<p className="sc-kicker mb-2">Authentication</p>
-					<h1 className="mb-2 text-3xl font-semibold tracking-tight text-slate-50">Sign in</h1>
-					<p className="mb-8 text-sm text-slate-500">JWT session for API access. Use the role you registered with.</p>
+					<h1 className="mb-2 text-3xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">Sign in</h1>
+					<p className="mb-8 text-sm text-slate-600 dark:text-slate-400">JWT session for API access. Use the role you registered with.</p>
 					<Card className="p-8" hover={false}>
 						<form onSubmit={onSubmit} className="space-y-6">
 							<Input label="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -49,9 +49,9 @@ export default function LoginPage() {
 								Login
 							</Button>
 						</form>
-						<div className="mt-6 text-sm text-slate-500">
+						<div className="mt-6 text-sm text-slate-600 dark:text-slate-400">
 							No account?{" "}
-							<Link className="font-mono text-cyan-400/90 underline-offset-4 hover:text-cyan-300 hover:underline" href="/register">
+							<Link className="font-mono text-cyan-700 underline-offset-4 hover:text-cyan-600 hover:underline dark:text-cyan-400/90 dark:hover:text-cyan-300" href="/register">
 								Register
 							</Link>
 						</div>

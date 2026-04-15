@@ -4,7 +4,13 @@ const donationSchema = new mongoose.Schema(
 	{
 		donorAddress: { type: String, required: true, trim: true },
 		amountWei: { type: String, required: true },
-		transactionHash: { type: String, required: true, unique: true, trim: true }
+		transactionHash: { type: String, required: true, unique: true, trim: true },
+		program: {
+			type: String,
+			enum: ["education", "skills", "healthcare", "general"],
+			default: "general",
+			trim: true
+		}
 	},
 	{ timestamps: true }
 );

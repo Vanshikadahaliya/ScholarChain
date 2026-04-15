@@ -15,8 +15,8 @@ const Input = ({
   const baseClasses = "w-full px-4 py-3 rounded-xl border-2 transition-all duration-300 focus:outline-none";
   
   const glassClasses = glassmorphism 
-    ? "border border-slate-600/80 bg-slate-950/50 text-slate-100 placeholder-slate-500 backdrop-blur-sm focus:border-cyan-500/50 focus:bg-slate-900/80 focus:ring-1 focus:ring-cyan-500/30" 
-    : "border border-slate-600 bg-slate-900 text-slate-100 placeholder-slate-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/30";
+    ? "border border-slate-300 bg-white text-slate-900 placeholder-slate-400 backdrop-blur-sm focus:border-cyan-500 focus:bg-white focus:ring-1 focus:ring-cyan-500/30 dark:border-slate-600/80 dark:bg-slate-950/50 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-cyan-500/50 dark:focus:bg-slate-900/80 dark:focus:ring-cyan-500/30" 
+    : "border border-slate-300 bg-white text-slate-900 placeholder-slate-400 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/30 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-cyan-500 dark:focus:ring-cyan-500/30";
   
   const errorClasses = error 
     ? "border-red-400 focus:border-red-500 focus:ring-red-200" 
@@ -28,7 +28,7 @@ const Input = ({
     <div className="space-y-2">
       {label && (
         <motion.label 
-          className="block text-xs font-medium uppercase tracking-wider text-slate-400"
+          className="block text-xs font-medium uppercase tracking-wider text-slate-600 dark:text-slate-400"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}

@@ -15,6 +15,22 @@ export function setToken(token) {
 	else localStorage.setItem("scholarchain_token", token);
 }
 
+export function getTokenPayload() {
+	const token = getToken();
+	if (!token) return null;
+
+	try {
+		const parts = token.split(".");
+		if (parts.length < 2) return null;
+		const payloadBase64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+		const padded = payloadBase64 + "=".repeat((4 - (payloadBase64.length % 4)) % 4);
+		const payloadString = atob(padded);
+		return JSON.parse(payloadString);
+	} catch {
+		return null;
+	}
+}
+
 export const api = axios.create({
 	baseURL: getBackendUrl(),
 	headers: { "Content-Type": "application/json" }

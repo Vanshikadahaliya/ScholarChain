@@ -108,7 +108,7 @@ export default function AllocatePage() {
 	};
 
 	return (
-		<div className="relative min-h-screen text-slate-100">
+		<div className="relative min-h-screen bg-white text-slate-900 dark:bg-[#05080c] dark:text-slate-100">
 			<Navbar account={account} onConnectWallet={onConnect} network={network} />
 			<main className="space-y-8 px-4 pb-16 pt-24">
 				<div className="mx-auto max-w-4xl space-y-8">
