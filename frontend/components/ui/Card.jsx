@@ -12,8 +12,8 @@ const Card = ({
   const baseClasses = "rounded-2xl border transition-all duration-300";
   
   const glassClasses = glassmorphism 
-    ? "border border-cyan-500/15 bg-slate-900/70 backdrop-blur-xl shadow-glow-sm shadow-inner-glow" 
-    : "bg-slate-900 border border-slate-700 shadow-lg";
+    ? "border border-slate-200 bg-white/90 backdrop-blur-xl shadow-sm dark:border-cyan-500/15 dark:bg-slate-900/70 dark:shadow-glow-sm dark:shadow-inner-glow" 
+    : "bg-white border border-slate-200 shadow-lg dark:bg-slate-900 dark:border-slate-700";
   
   const hoverClasses = hover 
     ? "hover:-translate-y-0.5 hover:border-cyan-400/25 hover:shadow-glow" 

@@ -29,14 +29,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <Script id="theme-init" strategy="beforeInteractive">
-          {`(function(){try{var theme=localStorage.getItem('theme');var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(theme==='dark'||(!theme&&prefersDark)){document.documentElement.classList.add('dark')}else{document.documentElement.classList.remove('dark')}}catch(e){}})();`}
+          {`(function(){try{var theme=localStorage.getItem('theme');if(theme==='dark'){document.documentElement.classList.add('dark')}else{document.documentElement.classList.remove('dark')}}catch(e){}})();`}
         </Script>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} font-sans antialiased bg-[#05080c] text-slate-100 selection:bg-cyan-500/30 selection:text-cyan-50`}
+        className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} font-sans antialiased bg-white text-slate-900 dark:bg-[#05080c] dark:text-slate-100 selection:bg-cyan-500/30 selection:text-cyan-50`}
       >
         <div className="sc-mesh-bg fixed inset-0 -z-10 pointer-events-none" aria-hidden />
         {children}

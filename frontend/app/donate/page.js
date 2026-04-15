@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { ethers } from "ethers";
 import Navbar from "../../components/layout/Navbar";
 import Footer from "../../components/layout/Footer";
@@ -17,11 +18,14 @@ import {
 } from "../../lib/web3";
 
 export default function DonatePage() {
+	const searchParams = useSearchParams();
 	const [account, setAccount] = useState("");
 	const [network, setNetwork] = useState("");
 	const [amountEth, setAmountEth] = useState("0.01");
 	const [loading, setLoading] = useState(false);
 	const [txHash, setTxHash] = useState("");
+	const program = searchParams.get("program") || "general";
+	const validProgram = ["education", "skills", "healthcare", "general"].includes(program) ? program : "general";
 
 	useEffect(() => {
 		(async () => {
@@ -67,7 +71,8 @@ export default function DonatePage() {
 				await api.post("/donate", {
 					donorAddress: account || (await signer.getAddress()),
 					amountWei: valueWei.toString(),
-					transactionHash: receipt.hash
+					transactionHash: receipt.hash,
+					program: validProgram
 				});
 			}
 
@@ -80,14 +85,15 @@ export default function DonatePage() {
 	};
 
 	return (
-		<div className="relative min-h-screen text-slate-100">
+		<div className="relative min-h-screen bg-white text-slate-900 dark:bg-[#05080c] dark:text-slate-100">
 			<Navbar account={account} onConnectWallet={onConnect} network={network} />
 			<main className="space-y-8 px-4 pb-16 pt-24">
 				<div className="mx-auto max-w-3xl space-y-8">
 					<div>
 						<p className="sc-kicker mb-1">Treasury inflow</p>
-						<h1 className="text-3xl font-semibold tracking-tight text-slate-50">Donate</h1>
-						<p className="mt-1 text-sm text-slate-500">Sign a Sepolia transaction to the ScholarChain contract.</p>
+						<h1 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">Donate</h1>
+						<p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Sign a Sepolia transaction to the ScholarChain contract.</p>
+						<p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Selected program: <span className="font-semibold capitalize">{validProgram}</span></p>
 					</div>
 					<Card className="p-8" hover={false}>
 						<form onSubmit={donate} className="space-y-6">
@@ -103,12 +109,12 @@ export default function DonatePage() {
 								Send donation (MetaMask)
 							</Button>
 							{!getToken() && (
-								<div className="text-sm text-slate-500">
-									Log in to persist the transaction hash in MongoDB (optional).
+								<div className="text-sm text-slate-600 dark:text-slate-400">
+									Log in to persist the transaction hash and selected program in MongoDB.
 								</div>
 							)}
 							{txHash && (
-								<div className="break-all font-mono text-sm text-cyan-200/90">
+								<div className="break-all font-mono text-sm text-cyan-700 dark:text-cyan-200/90">
 									tx {txHash}
 								</div>
 							)}

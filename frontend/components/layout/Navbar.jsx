@@ -6,10 +6,12 @@ import Link from "next/link";
 import Button from "../ui/Button";
 import Badge from "../ui/Badge";
 import ThemeToggle from "../ui/ThemeToggle";
+import { getTokenPayload, setToken } from "../../lib/api";
 
 const Navbar = ({ account, onConnectWallet, network }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [authUser, setAuthUser] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,13 +21,57 @@ const Navbar = ({ account, onConnectWallet, network }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navItems = [
+  useEffect(() => {
+    const syncAuthUser = () => {
+      setAuthUser(getTokenPayload());
+    };
+
+    syncAuthUser();
+    window.addEventListener("focus", syncAuthUser);
+    return () => window.removeEventListener("focus", syncAuthUser);
+  }, []);
+
+  const loggedOutNavItems = [
     { href: "/", label: "Home" },
     { href: "/donate", label: "Donate" },
     { href: "/students", label: "Students" },
     { href: "/allocate", label: "Allocate" },
     { href: "/audit", label: "Audit" }
   ];
+
+  const loggedInNavByRole = {
+    donor: [
+      { href: "/", label: "Home" },
+      { href: "/donate", label: "Donate" }
+    ],
+    student: [
+      { href: "/", label: "Home" },
+      { href: "/donate", label: "Donate" }
+    ],
+    staff: [
+      { href: "/", label: "Home" },
+      { href: "/donate", label: "Donate" },
+      { href: "/students", label: "Students" },
+      { href: "/audit", label: "Audit" },
+      { href: "/dashboard", label: "Dashboard" }
+    ],
+    admin: [
+      { href: "/", label: "Home" },
+      { href: "/donate", label: "Donate" },
+      { href: "/students", label: "Students" },
+      { href: "/allocate", label: "Allocate" },
+      { href: "/audit", label: "Audit" },
+      { href: "/dashboard", label: "Dashboard" }
+    ]
+  };
+
+  const role = authUser?.role;
+  const navItems = authUser ? (loggedInNavByRole[role] || loggedOutNavItems) : loggedOutNavItems;
+
+  const onLogout = () => {
+    setToken("");
+    window.location.href = "/login";
+  };
 
   return (
     <motion.nav
@@ -98,12 +144,27 @@ const Navbar = ({ account, onConnectWallet, network }) => {
               </Badge>
             )}
 
-            {/* Create Account */}
-            <Link href="/register" className="hidden md:inline-flex">
-              <button className="btn-primary px-4 py-2 text-sm">
-                Create Account
-              </button>
-            </Link>
+            {/* Create Account / Logged-in User */}
+            {authUser ? (
+              <div className="hidden md:flex items-center gap-2">
+                <div className="flex items-center rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-blue-800 dark:border-blue-800 dark:bg-blue-900/20 dark:text-blue-200">
+                  <span className="font-semibold">
+                    {authUser.name || authUser.email || "Logged in"}
+                  </span>
+                  <span className="mx-2 opacity-50">|</span>
+                  <span className="uppercase tracking-wide">{authUser.role || "user"}</span>
+                </div>
+                <Button variant="outline" size="sm" onClick={onLogout}>
+                  Log out
+                </Button>
+              </div>
+            ) : (
+              <Link href="/register" className="hidden md:inline-flex">
+                <button className="btn-primary px-4 py-2 text-sm">
+                  Create Account
+                </button>
+              </Link>
+            )}
 
             {/* Connect Button */}
             <Button
@@ -172,13 +233,24 @@ const Navbar = ({ account, onConnectWallet, network }) => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: navItems.length * 0.1 }}
             >
-              <Link
-                href="/register"
-                className="mt-2 block rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Create Account
-              </Link>
+              {authUser ? (
+                <div className="mt-2 space-y-2">
+                  <div className="rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-sm text-blue-800 dark:border-blue-800 dark:bg-blue-900/20 dark:text-blue-200">
+                    Signed in as {authUser.name || authUser.email || "User"} ({authUser.role || "user"})
+                  </div>
+                  <Button variant="outline" size="sm" onClick={onLogout} className="w-full">
+                    Log out
+                  </Button>
+                </div>
+              ) : (
+                <Link
+                  href="/register"
+                  className="mt-2 block rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Create Account
+                </Link>
+              )}
             </motion.div>
           </div>
         </motion.div>

@@ -2,53 +2,42 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { ethers } from "ethers";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { connectWallet, getChainId, switchToSepolia } from "../lib/web3";
+import { api } from "../lib/api";
 
-const missions = [
+const MISSION_GOALS_ETH = [5, 3, 7];
+
+const baseMissions = [
 	{
+		key: "education",
 		title: "Education for All",
 		description: "Support scholarships for underprivileged students pursuing higher education.",
-		raised: "₹2,45,000",
-		goal: "₹5,00,000",
-		percentage: 49,
-		donations: 156,
 		image: "/mission-education.jpg",
 		taxBenefit: true
 	},
 	{
+		key: "skills",
 		title: "Skill Development",
 		description: "Empower youth with vocational training and skill development programs.",
-		raised: "₹1,85,000",
-		goal: "₹3,00,000",
-		percentage: 62,
-		donations: 89,
 		image: "/mission-skills.jpg",
 		taxBenefit: true
 	},
 	{
+		key: "healthcare",
 		title: "Healthcare Access",
 		description: "Provide medical assistance and healthcare support to needy families.",
-		raised: "₹3,20,000",
-		goal: "₹7,00,000",
-		percentage: 46,
-		donations: 234,
 		image: "/mission-health.jpg",
 		taxBenefit: true
 	},
 ];
 
-const stats = [
-	{ label: "Total Donations", value: "₹12,50,000+" },
-	{ label: "Students Helped", value: "500+" },
-	{ label: "NGO Partners", value: "25+" },
-	{ label: "Transparent Transactions", value: "100%" }
-];
-
 export default function Home() {
 	const [account, setAccount] = useState("");
 	const [network, setNetwork] = useState("");
+	const [summaryByProgram, setSummaryByProgram] = useState({});
 
 	useEffect(() => {
 		(async () => {
@@ -64,6 +53,17 @@ export default function Home() {
 		})();
 	}, []);
 
+	useEffect(() => {
+		(async () => {
+			try {
+				const res = await api.get("/donate/summary");
+				setSummaryByProgram(res.data?.summary || {});
+			} catch {
+				setSummaryByProgram({});
+			}
+		})();
+	}, []);
+
 	const onConnect = async () => {
 		try {
 			await switchToSepolia();
@@ -75,6 +75,20 @@ export default function Home() {
 			alert(e.message || "Failed to connect");
 		}
 	};
+
+	const missions = baseMissions.map((mission, idx) => {
+		const goalEth = MISSION_GOALS_ETH[idx] || 1;
+		const programSummary = summaryByProgram[mission.key] || { totalWei: "0", donationsCount: 0 };
+		const raisedEth = Number(ethers.formatEther(programSummary.totalWei || "0"));
+		const percentage = goalEth > 0 ? Math.min(100, (raisedEth / goalEth) * 100) : 0;
+		return {
+			...mission,
+			raised: `${raisedEth.toFixed(4)} ETH`,
+			goal: `${goalEth.toFixed(2)} ETH`,
+			percentage: Number(percentage.toFixed(1)),
+			donations: Number(programSummary.donationsCount || 0)
+		};
+	});
 
 	return (
 		<div className="min-h-screen bg-white text-slate-900 dark:bg-[#05080c] dark:text-slate-100">
@@ -139,21 +153,16 @@ export default function Home() {
 
 									<div className="flex justify-between items-center">
 										<span className="text-sm text-gray-500 dark:text-gray-400">{mission.donations} donations</span>
-										<button className="bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
-											Donate Now
-										</button>
+										<Link href={`/donate?program=${mission.key}`} className="inline-flex">
+											<button className="bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
+												Donate Now
+											</button>
+										</Link>
 									</div>
 								</div>
 							))}
 						</div>
 
-						<div className="text-center mt-12">
-							<Link href="/donate">
-								<button className="btn-secondary px-8 py-3">
-									View All Programs
-								</button>
-							</Link>
-						</div>
 					</div>
 				</section>
 				{/* Trust Section */}
